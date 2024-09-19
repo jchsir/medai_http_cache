@@ -1,0 +1,39 @@
+PODS:
+  - CocoaAsyncSocket (7.6.5)
+  - Flutter (1.0.0)
+  - integration_test (0.0.1):
+    - Flutter
+  - KTVHTTPCache (3.0.2):
+    - CocoaAsyncSocket
+  - media_http_cache (0.0.1):
+    - Flutter
+    - KTVHTTPCache
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - media_http_cache (from `.symlinks/plugins/media_http_cache/ios`)
+
+SPEC REPOS:
+  trunk:
+    - CocoaAsyncSocket
+    - KTVHTTPCache
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+  media_http_cache:
+    :path: ".symlinks/plugins/media_http_cache/ios"
+
+SPEC CHECKSUMS:
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  integration_test: ce0a3ffa1de96d1a89ca0ac26fca7ea18a749ef4
+  KTVHTTPCache: 5711692cdf9a5ecfe829b1e16577deb3ffe3dc86
+  media_http_cache: 46c656dfe838cfe1c147c7a6e5e7096103deb459
+
+PODFILE CHECKSUM: 6e700dec67e6deac9b1c69bb14c49a2217a12d15
+
+COCOAPODS: 1.15.2
