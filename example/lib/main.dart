@@ -31,8 +31,13 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion =
-          await _mediaHttpCachePlugin.getPlatformVersion() ?? 'Unknown platform version';
+      platformVersion = await _mediaHttpCachePlugin.getPlatformVersion() ??
+          'Unknown platform version';
+      bool result = await _mediaHttpCachePlugin.startProxy(10086) ?? false;
+      String url = await _mediaHttpCachePlugin.getProxyURLWithOriginalURL(
+              'https://v.fluffyelements.com/episode/003/003021.mp4', false) ??
+          '';
+      print('========== $result $url');
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
