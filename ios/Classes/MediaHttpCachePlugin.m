@@ -36,13 +36,14 @@
         result(@(success));
     }else if ([@"stopProxy" isEqualToString:call.method]){
         [KTVHTTPCache proxyStop];
-        result(@(true));
+        result(@(YES));
     }else if ([@"proxyIsRunning" isEqualToString:call.method]){
         result(@([KTVHTTPCache proxyIsRunning]));
     }else if ([@"getProxyURLWithOriginalURL" isEqualToString:call.method]){
         NSString *url = call.arguments[0];
         BOOL bindToLocalhost = [call.arguments[1] boolValue];
-        result([KTVHTTPCache proxyURLWithOriginalURL:[NSURL URLWithString:url] bindToLocalhost:bindToLocalhost].absoluteString);
+        NSString *proxyUrl = [KTVHTTPCache proxyURLWithOriginalURL:[NSURL URLWithString:url] bindToLocalhost:bindToLocalhost].absoluteString;
+        result(proxyUrl);
     }else if ([@"preloadMedia" isEqualToString:call.method]){
         NSString *key = call.arguments[0];
         if (![self.dataLoaderDic objectForKey:key]) {
@@ -53,17 +54,17 @@
             [self.dataLoaderDic setObject:loader forKey:key];
             [loader prepare];
         }
-        result(@(true));
+        result(@(YES));
     }else if ([@"closePreloadMedia" isEqualToString:call.method]){
-        NSString *key = call.arguments[0];
+        NSString *key = call.arguments;
         [self.dataLoaderDic removeObjectForKey:key];
-        result(@(true));
+        result(@(YES));
     }else if ([@"closeAllPreloadMedia" isEqualToString:call.method]){
         [self.dataLoaderDic removeAllObjects];
-        result(@(true));
+        result(@(YES));
     }else if ([@"deleteAllCaches" isEqualToString:call.method]){
         [KTVHTTPCache cacheDeleteAllCaches];
-        result(@(true));
+        result(@(YES));
     }else {
         result(FlutterMethodNotImplemented);
     }
