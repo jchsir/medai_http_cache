@@ -5,6 +5,8 @@
 
 @property (nonatomic, strong) FlutterMethodChannel* channel;
 
+@property (nonatomic, strong) NSMutableDictionary *dataLoaderDic;
+
 @end
 
 
@@ -28,8 +30,9 @@
     if ([@"getPlatformVersion" isEqualToString:call.method]) {
         result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
     } else if ([@"startProxy" isEqualToString:call.method]){
-        UInt16 port = [call.arguments unsignedShortValue];
-        BOOL success = [self proxyStartWithPort:port];
+        UInt16 port = [call.arguments[0] unsignedShortValue];
+        int64_t maxCacheLength = [call.arguments[1] longLongValue];
+        BOOL success = [self proxyStartWithPort:port maxCacheLength:maxCacheLength];
         result(@(success));
     }else if ([@"stopProxy" isEqualToString:call.method]){
         [KTVHTTPCache proxyStop];
@@ -40,13 +43,32 @@
         NSString *url = call.arguments[0];
         BOOL bindToLocalhost = [call.arguments[1] boolValue];
         result([KTVHTTPCache proxyURLWithOriginalURL:[NSURL URLWithString:url] bindToLocalhost:bindToLocalhost].absoluteString);
+    }else if ([@"preloadMedia" isEqualToString:call.method]){
+        NSDictionary *headers = @{
+            // Set preload length if needed.
+            // @"Range" : @"bytes=0-1"
+        };
+        NSString *key = call.arguments[0];
+        NSURL *url = [NSURL URLWithString:call.arguments[1]];
+        KTVHCDataRequest *request = [[KTVHCDataRequest alloc] initWithURL:url headers:headers];
+        KTVHCDataLoader *loader = [KTVHTTPCache cacheLoaderWithRequest:request];
+        [self.dataLoaderDic setObject:loader forKey:key];
+        [loader prepare];
+        result(@(true));
+    }else if ([@"closePreloadMedia" isEqualToString:call.method]){
+        NSString *key = call.arguments[0];
+        [self.dataLoaderDic removeObjectForKey:key];
+        result(@(true));
+    }else if ([@"closeAllPreloadMedia" isEqualToString:call.method]){
+        [self.dataLoaderDic removeAllObjects];
+        result(@(true));
     }else {
         result(FlutterMethodNotImplemented);
     }
 }
 
 
-- (BOOL)proxyStartWithPort:(UInt16)port{
+- (BOOL)proxyStartWithPort:(UInt16)port maxCacheLength:(int64_t)maxCacheLength{
     NSError *error = nil;
     BOOL success = [KTVHTTPCache proxyStart:&error];
     [KTVHTTPCache encodeSetURLConverter:^NSURL *(NSURL *URL) {
@@ -59,8 +81,16 @@
     }];
     if (success) {
         [KTVHTTPCache proxySetPort:port];
+        [KTVHTTPCache cacheSetMaxCacheLength:maxCacheLength];
     }
     return success;
+}
+
+- (NSMutableDictionary *)dataLoaderDic{
+    if (!_dataLoaderDic) {
+        _dataLoaderDic = [[NSMutableDictionary alloc] init];
+    }
+    return _dataLoaderDic;
 }
 
 @end

@@ -13,20 +13,34 @@ abstract class MediaHttpCachePlatform {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<bool?> startProxy(int port) {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  Future<bool?> startProxy(int port, int maxCacheLength) {
+    throw UnimplementedError('startProxy() has not been implemented.');
   }
 
   Future<bool?> stopProxy() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+    throw UnimplementedError('stopProxy() has not been implemented.');
   }
 
   Future<bool?> proxyIsRunning() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+    throw UnimplementedError('proxyIsRunning() has not been implemented.');
   }
 
   Future<String?> getProxyURLWithOriginalURL(
       String originalUrl, bool bindToLocalhost) {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+    throw UnimplementedError(
+        'getProxyURLWithOriginalURL() has not been implemented.');
+  }
+
+  Future<bool?> preloadMedia(String key, String url) {
+    throw UnimplementedError('preloadMedia() has not been implemented.');
+  }
+
+  Future<bool?> closePreloadMedia(String key) {
+    throw UnimplementedError('closePreloadMedia() has not been implemented.');
+  }
+
+  Future<bool?> closeAllPreloadMedia() {
+    throw UnimplementedError(
+        'closeAllPreloadMedia() has not been implemented.');
   }
 }

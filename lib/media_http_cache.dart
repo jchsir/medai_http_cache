@@ -5,8 +5,8 @@ class MediaHttpCache {
     return MediaHttpCachePlatform.instance.getPlatformVersion();
   }
 
-  Future<bool?> startProxy(int port) {
-    return MediaHttpCachePlatform.instance.startProxy(port);
+  Future<bool?> startProxy(int port, int maxCacheLength) {
+    return MediaHttpCachePlatform.instance.startProxy(port, maxCacheLength);
   }
 
   Future<bool?> stopProxy() {
@@ -21,5 +21,17 @@ class MediaHttpCache {
       String originalUrl, bool bindToLocalhost) {
     return MediaHttpCachePlatform.instance
         .getProxyURLWithOriginalURL(originalUrl, bindToLocalhost);
+  }
+
+  Future<bool?> preloadMedia(String key, String url) {
+    return MediaHttpCachePlatform.instance.preloadMedia(key, url);
+  }
+
+  Future<bool?> closePreloadMedia(String key) {
+    return MediaHttpCachePlatform.instance.closePreloadMedia(key);
+  }
+
+  Future<bool?> closeAllPreloadMedia() {
+    return MediaHttpCachePlatform.instance.closeAllPreloadMedia();
   }
 }

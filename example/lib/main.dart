@@ -33,10 +33,15 @@ class _MyAppState extends State<MyApp> {
     try {
       platformVersion = await _mediaHttpCachePlugin.getPlatformVersion() ??
           'Unknown platform version';
-      bool result = await _mediaHttpCachePlugin.startProxy(10086) ?? false;
-      String url = await _mediaHttpCachePlugin.getProxyURLWithOriginalURL(
-              'https://v.fluffyelements.com/episode/003/003021.mp4', false) ??
-          '';
+      bool result =
+          await _mediaHttpCachePlugin.startProxy(10086, 1000000000) ?? false;
+      // String url = await _mediaHttpCachePlugin.getProxyURLWithOriginalURL(
+      //         'https://v.fluffyelements.com/episode/003/003021.mp4', false) ??
+      //     '';
+
+      bool url = await _mediaHttpCachePlugin.preloadMedia('ajskhdjaskhdja',
+              'https://v.fluffyelements.com/episode/003/003021.mp4') ??
+          false;
       print('========== $result $url');
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';

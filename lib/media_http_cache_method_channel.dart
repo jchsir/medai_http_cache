@@ -14,8 +14,9 @@ class MethodChannelMediaHttpCache extends MediaHttpCachePlatform {
   }
 
   @override
-  Future<bool?> startProxy(int port) async {
-    final result = await methodChannel.invokeMethod<bool>('startProxy', port);
+  Future<bool?> startProxy(int port, int maxCacheLength) async {
+    final result = await methodChannel
+        .invokeMethod<bool>('startProxy', [port, maxCacheLength]);
     return result;
   }
 
@@ -36,6 +37,27 @@ class MethodChannelMediaHttpCache extends MediaHttpCachePlatform {
       String originalUrl, bool bindToLocalhost) async {
     final result = await methodChannel.invokeMethod<String>(
         'getProxyURLWithOriginalURL', [originalUrl, bindToLocalhost]);
+    return result;
+  }
+
+  @override
+  Future<bool?> preloadMedia(String key, String url) async {
+    final result =
+        await methodChannel.invokeMethod<bool>('preloadMedia', [key, url]);
+    return result;
+  }
+
+  @override
+  Future<bool?> closePreloadMedia(String key) async {
+    final result =
+        await methodChannel.invokeMethod<bool>('closePreloadMedia', key);
+    return result;
+  }
+
+  @override
+  Future<bool?> closeAllPreloadMedia() async {
+    final result =
+        await methodChannel.invokeMethod<bool>('closeAllPreloadMedia');
     return result;
   }
 }
