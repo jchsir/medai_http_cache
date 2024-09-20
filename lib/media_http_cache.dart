@@ -34,4 +34,8 @@ class MediaHttpCache {
   Future<bool?> closeAllPreloadMedia() {
     return MediaHttpCachePlatform.instance.closeAllPreloadMedia();
   }
+
+  Future<bool?> deleteAllCaches() {
+    return MediaHttpCachePlatform.instance.deleteAllCaches();
+  }
 }

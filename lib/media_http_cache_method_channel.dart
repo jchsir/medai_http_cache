@@ -60,4 +60,10 @@ class MethodChannelMediaHttpCache extends MediaHttpCachePlatform {
         await methodChannel.invokeMethod<bool>('closeAllPreloadMedia');
     return result;
   }
+
+  @override
+  Future<bool?> deleteAllCaches() async {
+    final result = await methodChannel.invokeMethod<bool>('deleteAllCaches');
+    return result;
+  }
 }

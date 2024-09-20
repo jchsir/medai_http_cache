@@ -61,6 +61,9 @@
     }else if ([@"closeAllPreloadMedia" isEqualToString:call.method]){
         [self.dataLoaderDic removeAllObjects];
         result(@(true));
+    }else if ([@"deleteAllCaches" isEqualToString:call.method]){
+        [KTVHTTPCache cacheDeleteAllCaches];
+        result(@(true));
     }else {
         result(FlutterMethodNotImplemented);
     }

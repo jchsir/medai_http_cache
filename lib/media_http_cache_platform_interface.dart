@@ -43,4 +43,8 @@ abstract class MediaHttpCachePlatform {
     throw UnimplementedError(
         'closeAllPreloadMedia() has not been implemented.');
   }
+
+  Future<bool?> deleteAllCaches() {
+    throw UnimplementedError('deleteAllCaches() has not been implemented.');
+  }
 }
