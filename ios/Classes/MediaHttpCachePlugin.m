@@ -44,16 +44,15 @@
         BOOL bindToLocalhost = [call.arguments[1] boolValue];
         result([KTVHTTPCache proxyURLWithOriginalURL:[NSURL URLWithString:url] bindToLocalhost:bindToLocalhost].absoluteString);
     }else if ([@"preloadMedia" isEqualToString:call.method]){
-        NSDictionary *headers = @{
-            // Set preload length if needed.
-            // @"Range" : @"bytes=0-1"
-        };
         NSString *key = call.arguments[0];
-        NSURL *url = [NSURL URLWithString:call.arguments[1]];
-        KTVHCDataRequest *request = [[KTVHCDataRequest alloc] initWithURL:url headers:headers];
-        KTVHCDataLoader *loader = [KTVHTTPCache cacheLoaderWithRequest:request];
-        [self.dataLoaderDic setObject:loader forKey:key];
-        [loader prepare];
+        if (![self.dataLoaderDic objectForKey:key]) {
+            NSDictionary *headers = @{};
+            NSURL *url = [NSURL URLWithString:call.arguments[1]];
+            KTVHCDataRequest *request = [[KTVHCDataRequest alloc] initWithURL:url headers:headers];
+            KTVHCDataLoader *loader = [KTVHTTPCache cacheLoaderWithRequest:request];
+            [self.dataLoaderDic setObject:loader forKey:key];
+            [loader prepare];
+        }
         result(@(true));
     }else if ([@"closePreloadMedia" isEqualToString:call.method]){
         NSString *key = call.arguments[0];
